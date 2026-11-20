@@ -1,0 +1,1259 @@
+/* ==========================================
+   0. DESIGN TOKENS (COLOR GRADING)
+   Navy base (matches the resume) + one coral accent.
+   ========================================== */
+:root {
+    --navy-950: #0a1426;
+    --navy-900: #0f1d36;
+    --navy-800: #162a4a;
+    --navy-700: #1f3a63;
+    --sky-100: #eef3f9;
+    --sky-200: #dde7f2;
+    --surface: #ffffff;
+    --text: #1f2a3d;
+    --text-muted: #5a6a82;
+    --text-on-dark: #f4f7fb;
+    --text-on-dark-muted: #9fb0c7;
+    --accent: #ff5a5f;
+    --accent-dark: #e0434a;
+    --accent-soft: rgba(255, 90, 95, 0.18);
+    --border: #dbe3ee;
+    --shadow-sm: 0 2px 8px rgba(15, 29, 54, 0.08);
+    --shadow-md: 0 8px 24px rgba(15, 29, 54, 0.14);
+    --sidebar-w: 175px;
+}
+
+/* ==========================================
+   1. GLOBAL & RESET STYLES
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--sky-100);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+}
+
+img {
+    max-width: 100%;
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+/* ==========================================
+   2. INTRO / SPLASH SCREEN ANIMATION
+   ========================================== */
+.intro {
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: radial-gradient(circle at 50% 40%, var(--navy-800), var(--navy-950));
+    text-align: center;
+    overflow: hidden;
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+.intro.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.intro-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    color: var(--text-on-dark);
+    text-align: center;
+}
+
+.intro-subtext {
+    position: relative;
+    display: block;
+    bottom: -30px;
+    opacity: 0;
+    font-size: 45px;
+    font-weight: 700;
+    transition: bottom 0.8s ease-in-out, opacity 0.8s ease-in-out;
+}
+
+.intro-subtext.active {
+    bottom: 0;
+    opacity: 1;
+}
+
+.intro-subtext.fade {
+    bottom: 100px;
+    opacity: 0;
+}
+
+.intro-description {
+    display: block;
+    margin-top: 10px;
+    font-size: 20px;
+    color: var(--text-on-dark-muted);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.intro-description.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================
+   3. SIDEBAR NAVIGATION MENU
+   ========================================== */
+nav.side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-w);
+    height: 100vh;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 40px;
+    background: linear-gradient(180deg, var(--navy-800), var(--navy-950));
+}
+
+.profile-picture {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--navy-700);
+    margin-bottom: 30px;
+    transition: transform 0.4s ease, border-color 0.3s ease;
+}
+
+.profile-picture:hover {
+    transform: scale(1.08) rotate(3deg);
+    border-color: var(--accent);
+}
+
+nav.side-menu ul {
+    list-style: none;
+    width: 100%;
+    padding: 0;
+}
+
+nav.side-menu ul li {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.num {
+    color: var(--text-on-dark-muted);
+    opacity: 0.7;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+nav.side-menu a {
+    color: var(--text-on-dark);
+    padding: 13px 0;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+nav.side-menu a .arrow {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+nav.side-menu a.active {
+    color: var(--accent);
+}
+
+nav.side-menu a.active .arrow {
+    opacity: 1;
+}
+
+nav.side-menu a:hover {
+    color: var(--accent);
+    transform: translateX(3px);
+}
+
+.sidebar-socials {
+    margin-top: auto;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 75%;
+    padding: 0 15px;
+}
+
+.sidebar-socials h4 {
+    color: var(--text-on-dark-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.sidebar-socials-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.sidebar-socials a {
+    color: var(--text-on-dark);
+    font-size: 18px;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar-socials a:hover {
+    color: var(--accent);
+    transform: translateY(-3px);
+}
+
+/* ==========================================
+   4. HEADER COMPONENT
+   ========================================== */
+header {
+    background: linear-gradient(120deg, var(--navy-950), var(--navy-800));
+    border-bottom: 3px solid var(--accent);
+    position: relative;
+    margin-left: var(--sidebar-w);
+    min-height: 180px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    animation: headerAnimation 1s ease;
+}
+
+header h4 {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-on-dark-muted);
+}
+
+.header-text {
+    text-align: left;
+}
+
+.header-text h1 {
+    margin-bottom: 5px;
+    font-size: 30px;
+    letter-spacing: 0.5px;
+    color: var(--text-on-dark);
+}
+
+.header-text p {
+    color: var(--text-on-dark-muted);
+}
+
+/* ==========================================
+   5. MAIN CONTENT SECTIONS & CARDS
+   ========================================== */
+section {
+    padding: 60px 20px;
+    max-width: 1000px;
+    margin-left: calc(var(--sidebar-w) + 40px);
+    margin-right: auto;
+}
+
+section h2 {
+    font-size: 36px;
+    margin-bottom: 30px;
+    color: var(--navy-900);
+}
+
+section h2::after {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 4px;
+    margin-top: 10px;
+    border-radius: 2px;
+    background: var(--accent);
+}
+
+section h3 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: var(--navy-900);
+}
+
+#about h3 {
+    margin-top: 40px;
+}
+
+section h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: var(--navy-800);
+}
+
+.project-info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.project-text-content {
+    flex: 1 1 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.project-text-content p {
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+}
+
+.project-btn {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 6px;
+    background: var(--navy-800);
+    color: var(--text-on-dark);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.project-btn:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+}
+
+.project-image-content {
+    flex: 0 1 380px;
+    min-width: 280px;
+}
+
+.image-card-wrapper {
+    background: linear-gradient(135deg, var(--navy-700), var(--navy-900));
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.project-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+}
+
+.project-separator {
+    flex: 0 0 100%;
+    border: none;
+    border-top: 1px solid var(--border);
+    margin-top: 10px;
+}
+
+.project,
+.work-experience-item,
+.graphic-item {
+    background-color: var(--surface);
+    margin-bottom: 20px;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.7s ease, transform 0.7s ease, box-shadow 0.3s ease;
+}
+
+.project.show,
+.work-experience-item.show,
+.graphic-item.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.project.show:hover,
+.work-experience-item.show:hover,
+.graphic-item.show:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+}
+
+.project h3,
+.work-experience-item h4,
+.graphic-item h3 {
+    color: var(--navy-900);
+    margin-bottom: 10px;
+}
+
+.project p,
+.work-experience-item p,
+.graphic-item p {
+    line-height: 1.7;
+    color: var(--text-muted);
+}
+
+.graphic-img,
+.reviews-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    margin-bottom: 14px;
+}
+
+.reviews-desc {
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+#about p,
+#about li {
+    line-height: 1.7;
+    color: var(--text-muted);
+}
+
+#about strong {
+    color: var(--navy-900);
+}
+
+#register,
+#resume,
+#contact {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+#register p,
+#resume p {
+    color: var(--text-muted);
+}
+
+#contact {
+    text-align: center;
+}
+
+#contact a,
+#register a,
+#resume a {
+    color: var(--accent-dark);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+#contact a:hover,
+#register a:hover,
+#resume a:hover {
+    text-decoration: underline;
+}
+
+/* ---- Skill level bars (About section) ---- */
+.skills {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+}
+
+.skill-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--navy-900);
+}
+
+.skill-head span:last-child {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.bar {
+    width: 100%;
+    height: 10px;
+    background: var(--sky-200);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.fill {
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--navy-700), var(--accent));
+    transition: width 1.2s ease;
+}
+
+.skills.show .fill {
+    width: var(--level);
+}
+
+/* ==========================================
+   6. SHOP SECTION & MODAL
+   ========================================== */
+#shop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#shop h2 {
+    text-align: left;
+    width: 100%;
+}
+
+.shop-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.shop-item {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.shop-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.shop-item h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+    color: var(--navy-900);
+}
+
+.shop-item-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: opacity 0.2s ease;
+}
+
+.shop-item-img:hover {
+    opacity: 0.9;
+}
+
+.product-desc {
+    display: none;
+}
+
+.footer-note {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 1.5rem;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.shop-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 20, 38, 0.78);
+    justify-content: center;
+    align-items: center;
+}
+
+.shop-modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background-color: var(--surface);
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: var(--accent);
+}
+
+#modalImg {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+#modalTitle {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: var(--navy-900);
+}
+
+#modalDesc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* ==========================================
+   7. FORM & REGISTRATION LAYOUTS
+   ========================================== */
+.form-page-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.form-header,
+.form-footer {
+    margin-left: 0 !important;
+}
+
+.form-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    max-width: 540px;
+    width: 92%;
+    margin: 50px auto !important;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+}
+
+.form-container h2 {
+    font-size: 28px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
+    color: var(--navy-900);
+}
+
+.form-container h2::after {
+    display: none;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group>label {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: var(--navy-900);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="date"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    color: var(--text);
+    border: 1px solid #c5d1e0;
+    border-radius: 6px;
+    background-color: #f9fbfd;
+    transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background-color: #fff;
+    box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.form-group input.invalid,
+.form-group select.invalid {
+    border-color: var(--accent-dark);
+}
+
+.field-error {
+    display: none;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--accent-dark);
+}
+
+.field-error.show {
+    display: block;
+}
+
+.password-wrap {
+    position: relative;
+}
+
+.password-wrap input {
+    padding-right: 64px !important;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.toggle-password:hover {
+    color: var(--accent-dark);
+}
+
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+}
+
+.inline-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.inline-label input[type="radio"],
+.inline-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--navy-800);
+    color: var(--text-on-dark);
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: var(--accent);
+}
+
+.submit-btn:active {
+    transform: scale(0.98);
+}
+
+.form-success {
+    display: none;
+    margin-top: 20px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: #e8f6ee;
+    border: 1px solid #b6e2c8;
+    color: #1d6b3f;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.form-success.show {
+    display: block;
+}
+
+.form-actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.back-link {
+    display: inline-block;
+    color: var(--text-muted) !important;
+    font-size: 14px;
+    text-decoration: none !important;
+    transition: color 0.3s !important;
+}
+
+.back-link:hover {
+    color: var(--accent-dark) !important;
+    text-decoration: underline !important;
+}
+
+.form-footer {
+    margin-top: auto;
+}
+
+/* ==========================================
+   8. FOOTER
+   ========================================== */
+footer {
+    background-color: var(--navy-950);
+    color: var(--text-on-dark-muted);
+    text-align: center;
+    padding: 25px 0;
+    margin-left: var(--sidebar-w);
+    font-size: 14px;
+}
+
+/* ==========================================
+   9. ANIMATIONS (KEYFRAMES)
+   ========================================== */
+@keyframes headerAnimation {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* ==========================================
+   10. MEDIA QUERIES (RESPONSIVE)
+   ========================================== */
+@media (max-width: 768px) {
+    nav.side-menu {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 20px;
+    }
+
+    nav.side-menu ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    nav.side-menu ul li {
+        width: auto;
+        padding: 0;
+    }
+
+    .num {
+        display: none;
+    }
+
+    nav.side-menu a {
+        padding: 8px 12px;
+        background: var(--navy-700);
+        border-radius: 4px;
+    }
+
+    nav.side-menu a .arrow {
+        display: none;
+    }
+
+    header,
+    section,
+    #shop,
+    footer {
+        margin-left: 0 !important;
+    }
+
+    header {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 40px;
+    }
+
+    header h4 {
+        top: 15px;
+        left: 0;
+        right: 0;
+        text-align: center;
+    }
+
+    .header-text {
+        text-align: center;
+    }
+
+    .header-text h1 {
+        font-size: 24px;
+    }
+
+    .project-info {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .project-text-content,
+    .project-image-content {
+        flex: 0 0 100%;
+        width: 100%;
+    }
+
+    .intro-subtext {
+        font-size: 35px;
+    }
+
+    .intro-description {
+        font-size: 16px;
+    }
+
+    .sidebar-socials {
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .form-container {
+        padding: 28px 20px;
+    }
+}
+/* ==========================================
+   11. CONTACT FORM (OLD WAY: POST -> contact.php)
+   ========================================== */
+#contact {
+    text-align: left;
+    max-width: 700px;
+}
+
+#contact .contact-intro {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+#contact .contact-form .form-group:last-of-type {
+    margin-bottom: 24px;
+}
+
+.loaded {
+    margin-top: 18px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.loaded strong {
+    color: var(--navy-900);
+}
+
+/* ---- Thank-you page shown by contact.php ---- */
+.thanks-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.thanks-page .hero {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--accent);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    padding: 40px;
+    max-width: 520px;
+    width: 100%;
+    margin: 0;
+    text-align: center;
+}
+
+.thanks-page .hero-ok {
+    border-top-color: #2e9e5b;
+}
+
+.thanks-page .hero h2 {
+    font-size: 24px;
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+.thanks-page .hero h2::after {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.thanks-page .btn {
+    display: inline-block;
+    margin-top: 22px;
+    padding: 12px 26px;
+    border-radius: 6px;
+    background: var(--navy-800);
+    color: var(--text-on-dark);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.thanks-page .btn:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+}
+
+/* ---- Thank-you display details ---- */
+.status-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--accent);
+}
+
+.hero-ok .status-icon {
+    background: #2e9e5b;
+    animation: popIn 0.5s ease;
+}
+
+.thanks-sub {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.sent-summary {
+    text-align: left;
+    background: var(--sky-100);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 6px;
+}
+
+.thanks-page .sent-summary h3 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.sent-summary dt {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-top: 10px;
+}
+
+.sent-summary dd {
+    font-size: 14px;
+    color: var(--navy-900);
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.4); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+}
+
+/* ---- Contact response shown inside the portfolio (after send) ---- */
+.send-btn {
+    width: auto;
+    padding: 11px 28px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 14px;
+}
+
+.form-msg {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.form-msg.ok  { color: #1d8a4b; }
+.form-msg.err { color: var(--accent-dark); }
+
+.messages-title {
+    margin-top: 28px;
+    font-size: 18px;
+}
+
+.messages-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.messages-list li {
+    background: var(--sky-100);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text);
+    word-break: break-word;
+}
+
+.messages-list li.empty {
+    color: var(--text-muted);
+    background: transparent;
+    border-style: dashed;
+}
+
+/* ---- AJAX status line + message list (Step 8) ---- */
+#status {
+    margin-top: 10px;
+    min-height: 1.5em;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+#status.ok    { color: #16a34a; font-weight: 700; }
+#status.error { color: #dc2626; font-weight: 700; }
+
+#messageList {
+    max-width: 560px;
+}
+
+#messageList li {
+    box-shadow: var(--shadow-sm);
+}
+
+/* ---- Like button on every project (Step 9) ---- */
+.like {
+    display: block;
+    margin-top: 10px;
+    padding: 4px 12px;
+    border: 1px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.like:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+.like:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
